@@ -1,0 +1,98 @@
+{
+  "title": "Automated release checks",
+  "lang": "en-US",
+  "accent": "0F766E",
+  "font": "Calibri",
+  "slides": [
+    {
+      "type": "title",
+      "headline": "Automated checks make every release safer and faster",
+      "subtitle": "What we decided, why, and what happens next",
+      "meta": "Example deck",
+      "image": {
+        "alt": "A calm conveyor belt carrying identical parcels past a green checkpoint",
+        "prompt": "Flat illustration, white background, a short conveyor belt carrying identical parcels through a single checkpoint arch, one teal accent color, generous empty space on the left, no text, no letters, no logos, 4:5 aspect ratio"
+      },
+      "notes": "Answer first: release checks move from a manual list into the build pipeline."
+    },
+    {
+      "type": "process",
+      "headline": "Every change now passes three automatic checks before release",
+      "steps": [
+        {"label": "Commit", "arrow": "triggers"},
+        {"label": "Tests", "detail": "unit and API tests", "arrow": "then"},
+        {"label": "Scan", "detail": "dependency and secret scan", "arrow": "then"},
+        {"label": "Release", "detail": "only if all checks pass"}
+      ],
+      "highlight": 3,
+      "lines": ["A failed check stops the release automatically."],
+      "notes": ["Context: the old checklist had 14 manual items.", "Next slide: what changes for the team."]
+    },
+    {
+      "type": "comparison",
+      "headline": "The team stops checking by hand and reviews only failures",
+      "left": {"label": "Before", "items": ["Manual checklist", "Checks depend on who releases", "Errors found after release"]},
+      "right": {"label": "After", "items": ["Pipeline runs every check", "Same checks for every release", "Errors stop the release"]},
+      "notes": "Encode the difference in the panel headings, not only in color."
+    },
+    {
+      "type": "chart",
+      "headline": "Manual release preparation takes most of a working day",
+      "chart": {
+        "kind": "bar",
+        "categories": ["Checklist", "Test run", "Scan", "Sign-off"],
+        "values": [3.0, 2.0, 1.5, 0.5],
+        "number_format": "0.0\" h\"",
+        "highlight": 0,
+        "source": "Source: test values for this example spec - replace with real data"
+      },
+      "lines": ["The checklist alone takes three hours.", "Automation removes the first three bars."],
+      "notes": "Replace the example values with real measurements before using this slide."
+    },
+    {
+      "type": "number",
+      "headline": "Releases become possible every day instead of once a week",
+      "number": "5x",
+      "label": "more release windows per week",
+      "lines": ["Each release is smaller and easier to roll back."],
+      "notes": "Derived from the decision: daily release window, Monday to Friday."
+    },
+    {
+      "type": "timeline",
+      "headline": "The switch happens in three steps over six weeks",
+      "events": [
+        {"when": "Week 1", "label": "Tests run in the pipeline"},
+        {"when": "Week 3", "label": "Scans block releases"},
+        {"when": "Week 6", "label": "Manual checklist retired"}
+      ],
+      "highlight": 2,
+      "notes": "Each step can be rolled back on its own."
+    },
+    {
+      "type": "image",
+      "headline": "One shared dashboard shows the state of every release",
+      "image": {
+        "alt": "Release dashboard with one row per release and a status column",
+        "prompt": "Clean flat illustration of a single dashboard screen on a white background, rows of neutral grey bars and one teal status column, no readable text, no letters, no logos, 16:10 aspect ratio"
+      },
+      "lines": ["Green means released, red means a check stopped it."],
+      "notes": "Replace the placeholder with a real screenshot once the dashboard exists."
+    },
+    {
+      "type": "cards",
+      "headline": "Three risks remain and each has an owner",
+      "cards": [
+        {"title": "Flaky tests", "text": "Owner: QA - quarantine list"},
+        {"title": "Slow scans", "text": "Owner: Platform - cache results"},
+        {"title": "Hotfixes", "text": "Owner: Lead - documented bypass"}
+      ],
+      "notes": "Risks were collected at the end of the discussion."
+    },
+    {
+      "type": "closing",
+      "headline": "Next step: turn on the test stage this week",
+      "steps": ["Enable the test stage for the main branch", "Collect two weeks of check results", "Decide on blocking scans"],
+      "notes": "Decision owner and dates are in the project tracker."
+    }
+  ]
+}

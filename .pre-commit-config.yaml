@@ -1,0 +1,17 @@
+# pre-commit install --hook-type pre-commit --hook-type pre-push
+default_install_hook_types: [pre-commit, pre-push]
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+        stages: [pre-commit]
+
+  - repo: local
+    hooks:
+      - id: gitleaks-push
+        name: gitleaks (unpushed commits)
+        entry: gitleaks git --redact --verbose --log-opts="--branches --not --remotes"
+        language: system
+        pass_filenames: false
+        stages: [pre-push]

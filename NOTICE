@@ -1,0 +1,39 @@
+agent-skills
+Copyright (c) 2026 Mehmet Müjde — MIT License (see LICENSE), except where noted below.
+
+Third-party material
+====================
+
+Most skills are written in our own words and draw on the published works below; the
+skills listed under "MIT sources with copied material" are adapted copies of the
+originals. Each skill's SKILL.md lists its sources in a "Sources" section.
+
+Content under its own license (not MIT):
+- skills/appsec-review/references/asvs/ — OWASP Application Security Verification
+  Standard 5.0, (c) OWASP Foundation, CC BY-SA 4.0
+  (https://creativecommons.org/licenses/by-sa/4.0/). Derived files are shared under
+  the same license.
+- skills/appsec-review/references/principles.md — adapted from FIASSE / SSEM (OWASP,
+  Alton Crossley), CC BY-SA 4.0. Shared under the same license.
+
+Attribution (CC BY 4.0):
+- OWASP Secure Agent Playbook (OWASP, Chris Maenner et al.) — skills/appsec-review
+- OWASP Top 10 lists referenced in skills/appsec-review
+
+Apache-2.0 sources (ideas adapted, no files copied):
+- docker/skills, fluxcd/agent-skills — skills/docker-kubernetes
+- existential-birds/beagle, full-stack-skills/rust-skills — skills/rust
+- minorun365/minorun-marp-skill — skills/visual-presentation
+
+MIT sources with copied material (the original copyright and permission notice is kept
+in the skill folder's LICENSE file):
+- obra/superpowers (brainstorming), Copyright (c) 2025 Jesse Vincent
+  — skills/brainstorming, incl. scripts/ (visual companion) taken over with minor changes
+- mattpocock/skills (diagnosing-bugs), Copyright (c) 2026 Matt Pocock
+  — skills/diagnosing-bugs, incl. scripts/hitl-loop.template.sh
+- mattpocock/skills (grill-me, grilling), Copyright (c) 2026 Matt Pocock
+  — skills/grill-me
+- vercel-labs/skills (find-skills), Copyright (c) 2026 Vercel, Inc.
+  — skills/find-skills
+
+Other MIT sources: see the "Sources" section of each skill.
