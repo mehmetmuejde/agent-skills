@@ -29,7 +29,8 @@ reference **before** working on that topic.
 - **Package manager**: **uv only** — never pip directly, Poetry, pipenv or
   `requirements.txt`; see `references/tooling.md`
 - **Structure**: vertical feature slices with a public API per feature, enforced by
-  import-linter — see `references/structure.md`
+  import-linter; inside a feature router → service → repository, wired with dependency
+  injection — see `references/structure.md`
 - **Lint/format**: Ruff · **Type check**: ty
 - **Database**: PostgreSQL with **either** SQLAlchemy 2.0 + Alembic **or** SQLModel (+
   Alembic). The ORM is fixed per project — detect it from the existing code, never mix.

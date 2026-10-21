@@ -37,12 +37,37 @@ nothing is worse than a missing test.
 
 | Level | Tests | Tools |
 |---|---|---|
-| Service (unit) | business rules, edge cases, domain exceptions | plain functions, real or fake session |
+| Service (unit) | business rules, edge cases, domain exceptions | service built by hand with an in-memory repository |
+| Repository | queries, scoping by owner/tenant | real database, rolled-back session |
 | API (integration) | status codes, validation (422), auth (401/403/404), response shape | `TestClient` + `dependency_overrides` |
 | Database | queries, constraints, migrations, **RLS isolation** | real PostgreSQL |
 
-Services are pure (no FastAPI imports), so they are tested directly with a session —
-no HTTP needed.
+Services are pure (no FastAPI imports) and get their repository injected, so they are
+tested directly — no HTTP and no database needed:
+
+```python
+class InMemoryOrderRepository(OrderRepository):
+    def __init__(self) -> None:
+        self.orders: list[Order] = []
+
+    def add(self, order: Order) -> None:
+        self.orders.append(order)
+
+
+def test_create_sets_owner_from_user(user: User) -> None:
+    repository = InMemoryOrderRepository()
+    service = OrderService(create_autospec(Session, instance=True), repository)
+
+    service.create(OrderCreate(item="book"), owner=user)
+
+    assert repository.orders[0].owner_id == user.id
+```
+
+To test the router without the database, override the service dependency:
+
+```python
+app.dependency_overrides[get_order_service] = lambda: OrderService(fake_session, repository)
+```
 
 ## Test client and dependencies
 

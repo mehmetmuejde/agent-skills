@@ -24,7 +24,8 @@ app/
 │   │   ├── schemas.py      # Pydantic input/output models
 │   │   ├── models.py       # ORM / SQLModel table models
 │   │   ├── service.py      # business logic — no FastAPI imports
-│   │   ├── dependencies.py # feature dependencies (e.g. get_owned_order)
+│   │   ├── repository.py   # data access — queries only, no commits
+│   │   ├── dependencies.py # wiring session → repository → service, feature `Depends`
 │   │   └── exceptions.py   # domain exceptions
 │   └── users/
 └── shared/                 # domain-free helpers (pagination, time, ids)
@@ -53,19 +54,39 @@ dozens of features every folder becomes unwieldy.
 
 | File | Does | Doesn't |
 |---|---|---|
-| `router.py` | HTTP: parameters, dependencies, status codes, return types | business rules, SQL |
-| `service.py` | business rules, transactions, calls other features via their public API | import FastAPI, read `Request` |
+| `router.py` | HTTP: parameters, dependencies, status codes, return types; calls the service | business rules, SQL, touch the session or a repository |
+| `service.py` | business rules, transactions (`commit`), calls other features via their public API | import FastAPI, read `Request`, write SQL |
+| `repository.py` | queries and writes through the injected session | business rules, `commit`, import FastAPI |
 | `schemas.py` | input/output contracts per action | ORM logic |
 | `models.py` | tables, relationships, constraints | HTTP concerns |
-| `dependencies.py` | auth/ownership lookups, feature-specific `Depends` | business workflows |
+| `dependencies.py` | wiring session → repository → service, auth/ownership lookups, feature-specific `Depends` | business workflows |
 
 Services raise domain exceptions; the router (or an exception handler) maps them to HTTP
 status codes. That keeps services testable without HTTP.
 
+## Layers: router → service → repository
+
+Every feature with data access uses three layers, each talking only to the one below:
+
+```
+router (HTTP)  →  service (business rules, transaction)  →  repository (queries)  →  DB
+```
+
+- Services and repositories are **classes that receive their collaborators in
+  `__init__`** (constructor injection) — they never create a session or another service
+  themselves. `dependencies.py` wires them together (`references/dependencies.md`).
+- **The service owns the transaction**: it calls `commit`; repositories only `add`,
+  `execute` and `flush`. All layers share the request's session, so one request is one
+  transaction.
+- **The router only takes the service dependency** (`service: OrderServiceDep`) — never
+  the session or a repository.
+- Keep the layers thin: no pass-through methods without a reason. A feature without data
+  access (health, a pure proxy) needs no repository.
+
 ## Public API per feature
 
-- A feature's `__init__.py` exports what other features may use — service functions and
-  public schemas. Everything else is internal.
+- A feature's `__init__.py` exports what other features may use — the service and its
+  dependency alias, public schemas. Repositories and models stay internal.
 - Other features import **only** the public API:
   `from app.features.users import get_user` — never
   `from app.features.users.models import User`.
