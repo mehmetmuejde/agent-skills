@@ -18,6 +18,7 @@ are loaded only when needed.
 | [rust](skills/rust/) | Rust: idioms, errors, architecture, async, web, CLI, libraries, apps, FFI/WASM, tooling |
 | [visual-presentation](skills/visual-presentation/) | Turn a conversation result into a visual, self-explanatory .pptx deck |
 | [brainstorming](skills/brainstorming/) | Turn an idea into an approved design and spec before building, with an optional visual companion |
+| [idea-pipeline](skills/idea-pipeline/) | Take a new idea from intake and feasibility research to a timeboxed POC, then optionally to a published repo |
 | [diagnosing-bugs](skills/diagnosing-bugs/) | Diagnose hard bugs and performance regressions with a tight, red-capable feedback loop |
 | [grill-me](skills/grill-me/) | `/grill-me`: a relentless interview that sharpens a plan, decision or design |
 | [commit-messages](skills/commit-messages/) | Conventional Commits subject lines that match a strict regex |
