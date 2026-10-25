@@ -23,6 +23,18 @@ Attribution (CC BY 4.0):
 Apache-2.0 sources (ideas adapted, no files copied):
 - docker/skills, fluxcd/agent-skills — skills/docker-kubernetes
 - existential-birds/beagle, full-stack-skills/rust-skills — skills/rust
+
+MIT sources for the xcode-* skills (ideas and structure only, no text or code copied;
+facts taken from Apple's documentation, WWDC sessions, swift.org and Swift Evolution):
+- twostraws/SwiftUI-Agent-Skill, AvdLee/SwiftUI-Agent-Skill,
+  AvdLee/Swift-Concurrency-Agent-Skill, twostraws/SwiftData-Agent-Skill,
+  Dimillian/Skills — skills/xcode-macos-development, skills/xcode-ios-development
+- AvdLee/Swift-Testing-Agent-Skill, twostraws/Swift-Testing-Agent-Skill,
+  bradwindy/writing-xcuitests — skills/xcode-macos-testing, skills/xcode-ios-testing
+- steipete/agent-scripts, CharlesWiltgen/Axiom, AvdLee/SwiftUI-Agent-Skill
+  — skills/xcode-macos-performance, skills/xcode-ios-performance
+Apple's agent skills bundled with Xcode carry no open license and are not included;
+the xcode-* skills only point to them.
 - minorun365/minorun-marp-skill — skills/visual-presentation
 
 MIT sources with copied material (the original copyright and permission notice is kept

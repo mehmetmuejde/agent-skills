@@ -1,7 +1,8 @@
 # agent-skills
 
 Agent skills for everyday software work: FastAPI and React projects, Rust, security
-review, code review, accessibility, containers and Kubernetes, and turning a worked-out
+review, code review, accessibility, containers and Kubernetes, native macOS and iOS
+apps with Xcode (development, testing, performance), and turning a worked-out
 result into a presentation. Each skill is a folder with a `SKILL.md` and references that
 are loaded only when needed.
 
@@ -16,6 +17,12 @@ are loaded only when needed.
 | [change-review](skills/change-review/) | Code review of a PR/MR/branch with one-line comments ready to post |
 | [docker-kubernetes](skills/docker-kubernetes/) | Dockerfiles, Compose, Kubernetes, Helm, GitOps, supply chain |
 | [rust](skills/rust/) | Rust: idioms, errors, architecture, async, web, CLI, libraries, apps, FFI/WASM, tooling |
+| [xcode-macos-development](skills/xcode-macos-development/) | Native macOS apps with Swift 6 and SwiftUI: module structure, concurrency, data flow, menu bar, Liquid Glass, sandbox, notarization |
+| [xcode-ios-development](skills/xcode-ios-development/) | Native iPhone/iPad apps with Swift 6 and SwiftUI: module structure, scenes, resizable layouts, iPhone Duo, privacy, App Review |
+| [xcode-macos-testing](skills/xcode-macos-testing/) | Testing Mac apps: Swift Testing, XCUIAutomation, test plans, CI, accessibility audits, Developer ID release checks |
+| [xcode-ios-testing](skills/xcode-ios-testing/) | Testing iOS apps: Swift Testing, UI tests on simulators and devices, simctl, test plans, TestFlight release checks |
+| [xcode-macos-performance](skills/xcode-macos-performance/) | Mac app performance: Instruments/xctrace, leaks, hangs, energy and App Nap, XCTest metrics, soak tests with scripts |
+| [xcode-ios-performance](skills/xcode-ios-performance/) | iOS app performance: Instruments on devices, memory limits, hangs and hitches, launch, power, MetricKit, soak tests |
 | [visual-presentation](skills/visual-presentation/) | Turn a conversation result into a visual, self-explanatory .pptx deck |
 | [brainstorming](skills/brainstorming/) | Turn an idea into an approved design and spec before building, with an optional visual companion |
 | [idea-pipeline](skills/idea-pipeline/) | Take a new idea from intake and feasibility research to a timeboxed POC, then optionally to a published repo |
