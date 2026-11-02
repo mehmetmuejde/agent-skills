@@ -31,6 +31,7 @@ are loaded only when needed.
 | [commit-messages](skills/commit-messages/) | Conventional Commits subject lines that match a strict regex |
 | [find-skills](skills/find-skills/) | Find, vet and install agent skills from the open skills ecosystem |
 | [steuern-it-freiberufler](skills/steuern-it-freiberufler/) | German tax decisions for IT freelancers ("lohnt sich X steuerlich?"), in German, law as of 10/2026 |
+| [book-key-insights](skills/book-key-insights/) | Turn a book into a complete German learning document: core messages, all concepts, examples and self-test questions |
 | [website-echtheitspruefung](skills/website-echtheitspruefung/) | Check whether a website is genuine or fake (fake shop, job scam, stolen imprint, phishing), in German |
 
 ## Install
