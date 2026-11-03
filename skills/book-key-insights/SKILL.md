@@ -1,6 +1,6 @@
 ---
 name: book-key-insights
-description: Use when the user wants to learn the content of a book without reading it: a complete learning document with core messages, all topics and concepts, conclusion, practical examples, verification and self-test questions.
+description: "Use when the user wants to learn the content of a book without reading it: a complete learning document (Markdown plus PDF with cover page) with core messages, all topics and concepts, conclusion, practical examples, verification and self-test questions."
 ---
 
 # Book Key Insights
@@ -14,17 +14,25 @@ Write the deliverable in German unless the user asks for another language. These
 ## Procedure
 
 0. **Triage**: Identify the book type. For fiction, philosophy, textbooks, evidence-heavy or narrative non-fiction, tell the user briefly what a summary cannot carry (evidence, methodology, counterarguments, the narrative or the language itself) and recommend reading the key chapters in full. For fiction, ask whether a plot summary is wanted. Then continue; do not refuse.
-1. **Inventory**: Check file type, page count and table of contents. If the file is scanned (no extractable text), use OCR. If it is unreadable, say so openly and do not invent content. Exclude front and back matter (author bio, acknowledgements, marketing text) from the working material, since it can lead to invented content.
+1. **Inventory**: Check file type, page count and table of contents. If the file is scanned (no extractable text), use OCR. If it is unreadable, say so openly and do not invent content. Exclude front and back matter (author bio, acknowledgements, marketing text) from the working material, since it can lead to invented content. Only note the bibliographic data from the imprint page for the cover: title, subtitle, author, publisher, edition, year, ISBN.
 2. **Structure first**: Read the table of contents, introduction, concluding chapter, and the openings and endings of chapters to grasp the thesis and the structure.
 3. **Then every chapter**: For non-fiction and topic books (e.g. UX guides), process every chapter so that no topic is missing. For long books, work chapter by chapter, collect intermediate results in a file, and write the document in stages (outline first, then section by section). Never summarize the whole book in one pass. Merge the chapter notes into the overall synthesis afterwards, and give the middle chapters the same care as the first and last ones. Never fill a chapter in from guesswork.
-   - Note page or section references for every key claim.
+   - Note page or section references for every key claim. Use the printed page numbers, not the index of the PDF page. When text is extracted automatically, header and footer lines can sit at the start or the end of a page and shift references by one: work out which it is and check it against the book's own index or table of contents.
 4. **Own words**: Do not copy long passages. Direct quotes only if the exact wording matters, and then under 15 words.
-5. **Verify**: Check every quote against the text. Spot-check numbers, names and dates, especially from the middle of the book. Compare the outline with the table of contents: what is missing? List open doubts and affected chapters in the document.
+5. **Verify**: Check every quote against the text. Spot-check numbers, names, dates and page references, especially from the middle of the book. Compare the outline with the table of contents: what is missing? Count the words (see Length). List open doubts and affected chapters in the document.
 6. **Deliver** in the structure below.
 
 ## Length
 
-The document is detailed, but it has an upper limit: about 15 % of the book's word count, and at most 12,000 words (roughly 25 pages), whichever is lower. These are rules of thumb, not measured values. Within the limit, choose completeness over brevity: explain every concept, the reasoning, steps and examples properly. To stay within the limit, drop repetition, filler examples and anecdotes, never concepts. If the book is so dense that the limit would force cutting concepts, do not cut silently: tell the user and offer a second part. A short version (1-2 pages) is only produced if the user explicitly asks for it.
+The length is set by reading time, not by a share of the book.
+
+- **Target:** reading time in minutes × 120 words per minute (a slow, thoughtful learning pace). Default reading time is 60 minutes, so about 7,200 words. The user can name another reading time per book, for example 30 or 90 minutes.
+- **Upper limit:** 10,000 words, whatever the book. **Lower limit:** 90 % of the target.
+- Do not pad. If a short or thin book cannot support the target, stay shorter and say so openly.
+- Within the limits, choose completeness over brevity. Every key concept gets the author's reasoning, the steps or rules where the book gives them, and at least two examples. To stay within the limit, drop repetition, filler examples and anecdotes, never concepts.
+- If the book is so dense that the upper limit would force cutting concepts, do not cut silently: tell the user and offer a second part.
+- A short version (1-2 pages) is only produced if the user explicitly asks for it.
+- **Check before delivering:** count the words of the final file (for example `wc -w`). Below the lower limit means expand first, then deliver. Report the word count and the reading time at the end of your message.
 
 ## Output structure
 
@@ -40,7 +48,13 @@ The document is detailed, but it has an upper limit: about 15 % of the book's wo
 
 ## Delivery
 
-Provide it as a document, not only in chat. PDF or Word only if the user names the format. A summary alone is not retained well: recommend asking the self-test questions from memory after 1, 7 and 30 days. At the end, briefly offer to deepen topics as a quiz, flashcards or in conversation, so the user actually learns the material.
+Provide it as a document, not only in chat. Always deliver two files with the same base name: the Markdown file and a PDF made from it. Do not ask whether a PDF is wanted. Regenerate the PDF after every change to the Markdown, so both stay identical. Word only if the user names the format.
+
+The PDF starts with a **cover page** that shows: the label "Zusammenfassung" (in the language of the document), the book's title and subtitle, the author, publisher, edition and year as printed in the book, the ISBN if printed, the creation date, the word count and reading time of the document, and a note that it is a summary and no substitute for the book. Put no name of the person who requested it on the cover.
+
+`scripts/md2html.py` builds the HTML with the cover page from the Markdown file (title, subtitle, author, publisher, edition, ISBN and date are arguments; the label, note and statistics line default to German, pass `--label`, `--note` and `--stats` for another language). Print that HTML to PDF with any browser in headless mode, for example `chrome --headless --no-pdf-header-footer --print-to-pdf=out.pdf file:///path/to/out.html`. Run the script with `python3 -I`. If no way to create a PDF is available, say so; do not install anything without approval.
+
+A summary alone is not retained well: recommend asking the self-test questions from memory after 1, 7 and 30 days. At the end, briefly offer to deepen topics as a quiz, flashcards or in conversation, so the user actually learns the material.
 
 ## Rules
 
