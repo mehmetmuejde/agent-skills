@@ -5,16 +5,30 @@ import html
 import re
 import sys
 
-CSS = """
-@page { size: A4; margin: 20mm 18mm; }
-body { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 10.5pt; line-height: 1.5; color: #1a1a1a; }
-h1 { font-size: 22pt; margin: 0 0 8pt; }
-h2 { font-size: 15pt; margin: 22pt 0 6pt; border-bottom: 1px solid #ccc; padding-bottom: 3pt; break-after: avoid; }
-h3 { font-size: 12.5pt; margin: 16pt 0 5pt; break-after: avoid; }
-p { margin: 0 0 7pt; }
-ul, ol { margin: 0 0 8pt; padding-left: 18pt; }
-li { margin-bottom: 3pt; }
+CSS_TEMPLATE = """
+@page {{ size: {width}mm {height}mm; margin: {mv}mm {mh}mm; }}
+body {{ font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: {font}pt; line-height: 1.5; color: #1a1a1a; }}
+h1 {{ font-size: {h1}pt; margin: 0 0 8pt; line-height: 1.2; }}
+h2 {{ font-size: {h2}pt; margin: 22pt 0 7pt; border-bottom: 1px solid #ccc; padding-bottom: 3pt; line-height: 1.25; break-after: avoid; }}
+h3 {{ font-size: {h3}pt; margin: 18pt 0 6pt; line-height: 1.3; break-after: avoid; }}
+p {{ margin: 0 0 8pt; overflow-wrap: anywhere; }}
+code {{ overflow-wrap: anywhere; }}
+ul, ol {{ margin: 0 0 9pt; padding-left: 16pt; }}
+li {{ margin-bottom: 4pt; }}
+.cover {{ height: {cover_h}mm; display: flex; flex-direction: column; justify-content: center; text-align: center; break-after: page; }}
+.cover .label {{ font-size: {font}pt; letter-spacing: 2pt; text-transform: uppercase; color: #666; margin-bottom: 28pt; }}
+.cover .title {{ font-size: {title}pt; font-weight: 700; line-height: 1.15; margin: 0 0 12pt; }}
+.cover .subtitle {{ font-size: {sub}pt; color: #444; margin: 0 0 36pt; }}
+.cover .author {{ font-size: {sub}pt; margin: 0 0 6pt; }}
+.cover .meta {{ font-size: {small}pt; color: #555; margin: 0 0 4pt; }}
+.cover .note {{ margin-top: 40pt; font-size: {small}pt; color: #666; border-top: 1px solid #ccc; padding-top: 10pt; }}
 """
+
+LAYOUTS = {
+    # Reader: page about the size of an 8-inch phone or tablet screen, large type, narrow margins.
+    "reader": dict(width=110, height=176, mv=8, mh=7, font=12, h1=20, h2=15, h3=13, title=28, sub=14, small=10, cover_h=148),
+    "a4": dict(width=210, height=297, mv=20, mh=18, font=10.5, h1=22, h2=15, h3=12.5, title=40, sub=16, small=11, cover_h=250),
+}
 
 
 def inline(text: str) -> str:
@@ -69,17 +83,6 @@ def convert(md: str) -> str:
     return "\n".join(out)
 
 
-COVER_CSS = """
-.cover { height: 250mm; display: flex; flex-direction: column; justify-content: center; text-align: center; break-after: page; }
-.cover .label { font-size: 11pt; letter-spacing: 3pt; text-transform: uppercase; color: #666; margin-bottom: 40pt; }
-.cover .title { font-size: 40pt; font-weight: 700; line-height: 1.15; margin: 0 0 14pt; }
-.cover .subtitle { font-size: 16pt; color: #444; margin: 0 0 56pt; }
-.cover .author { font-size: 18pt; margin: 0 0 6pt; }
-.cover .meta { font-size: 11pt; color: #555; margin: 0 0 4pt; }
-.cover .note { margin-top: 64pt; font-size: 10pt; color: #666; border-top: 1px solid #ccc; padding-top: 12pt; }
-"""
-
-
 def cover(args: argparse.Namespace, md: str) -> str:
     reading_text = md.split("## 9. Selbsttest")[0]
     words_text = f"{len(md.split()):,}".replace(",", ".")
@@ -111,6 +114,7 @@ def main() -> None:
     parser.add_argument("--edition", default="")
     parser.add_argument("--isbn", default="")
     parser.add_argument("--date", required=True)
+    parser.add_argument("--layout", choices=sorted(LAYOUTS), default="reader")
     parser.add_argument("--label", default="Zusammenfassung · Lerndokument")
     parser.add_argument("--note", default="Eigene Zusammenfassung zum Lernen, kein Ersatz für das Buch.")
     parser.add_argument("--stats", default="Erstellt am {date} · {words} Wörter · ca. {minutes} Minuten Lesezeit")
@@ -120,7 +124,7 @@ def main() -> None:
     body = cover(args, md) + convert(md)
     page = (
         f'<!doctype html><html lang="de"><head><meta charset="utf-8"><title>{html.escape(args.title)}</title>'
-        f"<style>{CSS}{COVER_CSS}</style></head><body>{body}</body></html>"
+        f"<style>{CSS_TEMPLATE.format(**LAYOUTS[args.layout])}</style></head><body>{body}</body></html>"
     )
     with open(args.dst, "w", encoding="utf-8") as f:
         f.write(page)

@@ -1,6 +1,6 @@
 ---
 name: book-key-insights
-description: "Use when the user wants to learn the content of a book without reading it: a complete learning document (Markdown plus PDF with cover page) with core messages, all topics and concepts, conclusion, practical examples, verification and self-test questions."
+description: "Use when the user wants to learn the content of a book without reading it: a complete learning document (delivered as a phone-format PDF with cover page) with core messages, all topics and concepts, conclusion, practical examples, verification and self-test questions."
 ---
 
 # Book Key Insights
@@ -48,11 +48,13 @@ The length is set by reading time, not by a share of the book.
 
 ## Delivery
 
-Provide it as a document, not only in chat. Always deliver two files with the same base name: the Markdown file and a PDF made from it. Do not ask whether a PDF is wanted. Regenerate the PDF after every change to the Markdown, so both stay identical. Word only if the user names the format.
+Provide it as a document, not only in chat. Deliver **only a PDF** in phone format (page 110 x 176 mm, 12 pt, made for reading on an 8-inch phone). The Markdown is a working file: keep it outside the output folder (for example in a scratch folder) and regenerate the PDF after every change to it. Do not ask whether a PDF is wanted. Another layout (`--layout a4`) or Word only if the user names it.
+
+**Collections:** If the file contains several books, write one separate document per book (each with its own length budget and cover page), and state which books the file really contains and whether any are incomplete.
 
 The PDF starts with a **cover page** that shows: the label "Zusammenfassung" (in the language of the document), the book's title and subtitle, the author, publisher, edition and year as printed in the book, the ISBN if printed, the creation date, the word count and reading time of the document, and a note that it is a summary and no substitute for the book. Put no name of the person who requested it on the cover.
 
-`scripts/md2html.py` builds the HTML with the cover page from the Markdown file (title, subtitle, author, publisher, edition, ISBN and date are arguments; the label, note and statistics line default to German, pass `--label`, `--note` and `--stats` for another language). Print that HTML to PDF with any browser in headless mode, for example `chrome --headless --no-pdf-header-footer --print-to-pdf=out.pdf file:///path/to/out.html`. Run the script with `python3 -I`. If no way to create a PDF is available, say so; do not install anything without approval.
+`scripts/md2html.py` builds the HTML with the cover page from the Markdown file, in the phone layout by default (title, subtitle, author, publisher, edition, ISBN and date are arguments; the label, note and statistics line default to German, pass `--label`, `--note` and `--stats` for another language). Print that HTML to PDF with any browser in headless mode, for example `chrome --headless --no-pdf-header-footer --print-to-pdf=out.pdf file:///path/to/out.html`. Run the script with `python3 -I`. If no way to create a PDF is available, say so; do not install anything without approval.
 
 A summary alone is not retained well: recommend asking the self-test questions from memory after 1, 7 and 30 days. At the end, briefly offer to deepen topics as a quiz, flashcards or in conversation, so the user actually learns the material.
 
